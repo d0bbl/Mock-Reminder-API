@@ -9,7 +9,7 @@ router.post("/data/write", dataController.create);
 
 // router.put("/data/write", IdeaController.updateData);
 
-// router.delete("/data/write", IdeaController.deleteData);
+router.delete("/data/write", dataController.delete);
 
 
 module.exports = router;

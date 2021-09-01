@@ -62,9 +62,57 @@ exports.create = async (req, res, next) => {
 
 // };
 
-// exports.delete = async (req, res, next) => {
+exports.delete = async (req, res, next) => {
+    const { object_id, filter } = req.body;
 
-// };
+    const validateError = validateDelete(req.body);
+    if (validateError) {
+        const error = new Error(validateError);
+        error.status = 422;
+
+        return next(error);
+    }
+
+    if ( !object_id ) {
+        if ( filter ) {
+                try {
+                    await DataPoint.deleteMany({ filter
+                    });
+
+                    return res.status(201).json({
+                        status: "success",
+                        message:"data deleted"
+                    });
+
+                } catch (error) {
+                    return {
+                        status: "failed",
+                        error: error.message
+                    }    
+                }
+                
+        } else {
+            const error = new Error("filter is required!");
+            error.status = 409;
+            return next(error);
+
+        }
+
+    } else {
+        try {
+            await DataPoint.deleteOne({ object_id });
+            
+            return res.status(201).json({
+                status: "success",
+                message:"data deleted"
+            });
+
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+};
 
 // exports.fetchById = async (req, res, next) => {
 
@@ -84,4 +132,13 @@ const validate = data => {
     if (bulk_write && !Array.isArray(payload)) return "Invalid Payload Format. Expected an Array";
     if (!bulk_write && Array.isArray(payload)) return "Invalid Payload Format. Expected an Object";
     if (typeof payload !== 'object') return "Invalid Payload Format. Expected an Object or Array";
+};
+
+const validateDelete = data => {
+    const { plugin_id, organization_id, collection_name, bulk_write} = data;
+
+    if (!plugin_id) return "Plugin Id is required";
+    if (!organization_id) return "Organization Id is required";
+    if (!collection_name) return "Collection Name is required";
+    if ( typeof bulk_write !== 'boolean') return "Invalid bulk_write Format. Expected true or false";
 };
