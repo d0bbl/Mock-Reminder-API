@@ -66,10 +66,6 @@ exports.create = async (req, res, next) => {
 
 // };
 
-// exports.fetchById = async (req, res, next) => {
-
-// };
-
 // exports.search = async (req, res, next) => {
 
 // };
