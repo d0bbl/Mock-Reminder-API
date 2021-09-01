@@ -87,9 +87,49 @@ exports.update = async (req, res, next) => {
     }
 };
 
-// exports.delete = async (req, res, next) => {
+exports.delete = async (req, res, next) => {
+    const { object_id, filter } = req.body;
 
-// };
+    const validateError = validate(req.body, 'delete');
+    if (validateError) {
+        const error = new Error(validateError);
+        error.status = 422;
+
+        return next(error);
+    }
+
+    if (object_id) {
+        try {
+            await DataPoint.deleteOne({ _id: object_id });
+
+            return res.status(201).json({
+                status: "success",
+                message: "data deleted"
+            });
+
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        try {
+            await DataPoint.deleteMany({
+                filter
+            });
+
+            return res.status(201).json({
+                status: "success",
+                message: "data deleted"
+            });
+
+        } catch (error) {
+            return {
+                status: "failed",
+                error: error.message
+            }
+        }
+    }
+
+};
 
 // exports.search = async (req, res, next) => {
 
@@ -97,19 +137,25 @@ exports.update = async (req, res, next) => {
 
 // Helpers
 const validate = (data, action = 'create') => {
-    const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload } = data;
+    const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload, filter } = data;
 
     if (!plugin_id) return "Plugin Id is required";
     if (!organization_id) return "Organization Id is required";
     if (!collection_name) return "Collection Name is required";
-    if (typeof payload !== 'object') return "Invalid Payload Format. Expected an Object or Array";
 
     if (action === 'create') {
         if (bulk_write && !Array.isArray(payload)) return "Invalid Payload Format. Expected an Array";
         if (!bulk_write && Array.isArray(payload)) return "Invalid Payload Format. Expected an Object";
+        if (typeof payload !== 'object') return "Invalid Payload Format. Expected an Object or Array";
+
     }
 
     if (action === 'update' && (!object_id || !filter)) return "Invalid Update Request. object_id or filter is needed.";
+
+    if (action === 'delete') { 
+        if (bulk_write && !filter) return "Invalid Delete Request. Filter is needed.";
+        if (!bulk_write && !object_id) return "Invalid Delete Request. object_id is needed.";
+    }
 };
 
 const getQueryFrom = (data) => {
@@ -123,3 +169,12 @@ const getQueryFrom = (data) => {
 
     return query;
 };
+
+// const validateDelete = data => {
+//     const { plugin_id, organization_id, collection_name, bulk_write} = data;
+
+//     if (!plugin_id) return "Plugin Id is required";
+//     if (!organization_id) return "Organization Id is required";
+//     if (!collection_name) return "Collection Name is required";
+//     if ( typeof bulk_write !== 'boolean') return "Invalid bulk_write Format. Expected true or false";
+// };
