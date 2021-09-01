@@ -12,30 +12,31 @@ exports.create = async (req, res, next) => {
         return next(error);
     }
     if (bulk_write) {
-        const result = payload.map(async row => {
+
+        let result = [];
+
+        for (let i = 0; i < payload.length; i++) {
+            let row = payload[i];
+            let document = {};
             try {
                 const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, payload: row });
-                return {
-                    status: "success",
-                    document: {
-                        plugin_id: savedRecord.plugin_id,
-                        organization_id: savedRecord.organization_id,
-                        collection_name: savedRecord.collection_name,
-                        object_id: savedRecord._id,
-                        payload: savedRecord.payload
-                    }
+
+                document = {
+                    object_id: savedRecord._id,
+                    payload: savedRecord.payload
                 }
+                result.push({ status: "success", document });
 
             } catch (error) {
-                return {
+                result.push({
                     status: "failed",
                     error: error.message
-                }
+                });
             }
 
-        })
+        }
 
-        return res.status(201).json({ result });
+        return res.status(201).json({ plugin_id, organization_id, collection_name,result });
 
     } else {
         try {
