@@ -61,7 +61,7 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     const { object_id, bulk_write, payload } = req.body;
 
-    const validateError = validate(req.body);
+    const validateError = validate(req.body, "update");
     if (validateError) {
         const error = new Error(validateError);
         error.status = 422;
@@ -101,7 +101,7 @@ exports.find = async (req, res, next) => {
     try {
         const allRecords = await DataPoint.find(query);
 
-       return res.status(200).json({ result: allRecords });
+        return res.status(200).json({ result: allRecords });
 
     } catch (error) {
         next(error);
@@ -116,7 +116,7 @@ exports.search = async (req, res, next) => {
     if (!filter || Object.keys(filter).length == 0) return await this.find(req, res, next);
 
     let query = getQueryFrom({ plugin_id, organization_id, collection_name, filter });
-    
+
     try {
         const allRecords = await DataPoint.find(query);
 
@@ -130,7 +130,7 @@ exports.search = async (req, res, next) => {
 
 // Helpers
 const validate = (data, action = 'create') => {
-    const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload } = data;
+    const { plugin_id, organization_id, collection_name, bulk_write, filter, object_id, payload } = data;
 
     if (!plugin_id) return "Plugin Id is required";
     if (!organization_id) return "Organization Id is required";
