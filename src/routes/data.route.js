@@ -3,17 +3,13 @@ const dataController = require("../controllers/data.controller");
 
 const router = express.Router();
 
-// router.get('/ideas', IdeaController.getIdeas);
+router.get('/', dataController.getData);
 
-// router.get("/ideas/myIdeas", [ jwtV, validate("myIdeas"), ifInvalid ], IdeaController.myIdeas);
+// router.post("/", IdeaController.postData);
 
-// router.get("/ideas/:ideaId", [ jwtV, validate("show"), ifInvalid ], IdeaController.showIdea);
+// router.put("/", IdeaController.updateData);
 
-// router.post("/ideas/post", [ jwtV, validate("post"), ifInvalid ], IdeaController.postIdea);
-
-// router.put("/ideas/:ideaId", [ jwtV, validate("update"), ifInvalid ], IdeaController.updateIdea);
-
-// router.delete("/ideas/:ideaId", [ jwtV, validate("delete"), ifInvalid ], IdeaController.deleteIdea);
+// router.delete("/", IdeaController.deleteData);
 
 
 module.exports = router;
