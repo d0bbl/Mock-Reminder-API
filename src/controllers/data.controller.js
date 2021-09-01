@@ -2,7 +2,7 @@ const DataPoint = require('../models');
 
 exports.create = async (req, res, next) => {
     
-    const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload } = req.body;
+    const { plugin_id, organization_id, collection_name, bulk_write, payload } = req.body;
 
     const validateError = validate(req.body);
     if (validateError) {
@@ -14,7 +14,7 @@ exports.create = async (req, res, next) => {
     if (bulk_write) {
         const result = payload.map(async row => {
             try {
-                const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, bulk_write, object_id, payload: row });
+                const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, bulk_write, payload: row });
                 return {
                     status: "success",
                     document: {
@@ -22,7 +22,7 @@ exports.create = async (req, res, next) => {
                         organization_id: savedRecord.organization_id,
                         collection_name: savedRecord.collection_name,
                         bulk_write: savedRecord.bulk_write,
-                        object_id: savedRecord.object_id,
+                        object_id: savedRecord._id,
                         payload: savedRecord.payload
                     }
                 }
@@ -40,14 +40,14 @@ exports.create = async (req, res, next) => {
 
     } else {
         try {
-            const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, bulk_write, object_id, payload });
+            const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, bulk_write, payload });
 
             return res.status(201).json({
                 plugin_id: savedRecord.plugin_id,
                 organization_id: savedRecord.organization_id,
                 collection_name: savedRecord.collection_name,
                 bulk_write: savedRecord.bulk_write,
-                object_id: savedRecord.object_id,
+                object_id: savedRecord._id,
                 payload: savedRecord.payload
             });
 
@@ -58,7 +58,23 @@ exports.create = async (req, res, next) => {
     }
 };
 
+// exports.update = async (req, res, next) => {
 
+// };
+
+// exports.delete = async (req, res, next) => {
+
+// };
+
+// exports.fetchById = async (req, res, next) => {
+
+// };
+
+// exports.search = async (req, res, next) => {
+
+// };
+
+// Helpers
 const validate = data => {
     const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload } = data;
 
