@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
 require('dotenv').config();
+
+const express = require('express');
+const mongoose = require('mongoose');
 const ApiRoutes = require('./src/routes/data.route');
 
 
@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Log request data
-app.use(morgan('dev'));
+if(process.env.NODE_ENV !== 'production') app.use(require('morgan')('dev'));
 
 
 // Routes which should handle requests

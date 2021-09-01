@@ -58,7 +58,23 @@ exports.create = async (req, res, next) => {
     }
 };
 
+// exports.update = async (req, res, next) => {
 
+// };
+
+// exports.delete = async (req, res, next) => {
+
+// };
+
+// exports.fetchById = async (req, res, next) => {
+
+// };
+
+// exports.search = async (req, res, next) => {
+
+// };
+
+// Helpers
 const validate = data => {
     const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload } = data;
 
