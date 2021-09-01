@@ -114,8 +114,9 @@ exports.delete = async (req, res, next) => {
         }
     } else {
         try {
+            const query = getQueryFrom(req.body);
             await DataPoint.deleteMany({
-                filter
+                query
             });
 
             return res.status(201).json({
@@ -184,7 +185,7 @@ const validate = (data, action = 'create') => {
 
     }
 
-    if (action === 'update' && (!object_id || !filter)) return "Invalid Update Request. object_id or filter is needed.";
+    if (action === 'update' && !(object_id || filter)) return "Invalid Update Request. object_id or filter is needed.";
 
     if (action === 'delete') { 
         if (bulk_write && !filter) return "Invalid Delete Request. Filter is needed.";
