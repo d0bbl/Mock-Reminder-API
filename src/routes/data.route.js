@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/data/write", dataController.create);
 
-// router.put("/data/write", dataController.update);
+router.put("/data/write", dataController.update);
 
 // router.delete("/data/write", dataController.delete);
 

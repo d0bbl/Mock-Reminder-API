@@ -14,16 +14,8 @@ const dataSchema = new Schema({
     type: String,
     required: true
   },
-  bulk_write: {
-    type:Boolean,
-    required: true
-  },
   object_id: { 
     type: String, 
-    required: false
-  },
-  filter: {
-    type: Object,
     required: false
   },
   payload: {
