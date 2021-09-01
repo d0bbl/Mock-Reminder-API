@@ -59,7 +59,7 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-    const { object_id, bulk_write, payload } = req.body;
+    const { object_id, bulk_write, payload, filter } = req.body;
 
     const validateError = validate(req.body, 'update');
     if (validateError) {
