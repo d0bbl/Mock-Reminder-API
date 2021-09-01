@@ -20,12 +20,19 @@ const ApiRoutes = require('./src/routes/data.route');
 })();
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // Log request data
 app.use(morgan('dev'));
 
 
 // Routes which should handle requests
 app.use('/api', ApiRoutes);
+
+// App Health Check
+app.get('/', (req, res)=> res.sendStatus(200));
 
 
 // Handle Error Requests
@@ -37,9 +44,9 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  return res.status(error.status || 500).json({
-    error,
-  });
+  return res
+    .status(error.status || 500)
+    .json({ error: error.message });
 });
 
 module.exports = app;

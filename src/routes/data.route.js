@@ -3,13 +3,13 @@ const dataController = require("../controllers/data.controller");
 
 const router = express.Router();
 
-router.get('/', dataController.getData);
+// router.get('/data/read/:plugin_id/:collection_name/:organization_id', dataController.getData);
 
-// router.post("/", IdeaController.postData);
+router.post("/data/write", dataController.create);
 
-// router.put("/", IdeaController.updateData);
+// router.put("/data/write", IdeaController.updateData);
 
-// router.delete("/", IdeaController.deleteData);
+// router.delete("/data/write", IdeaController.deleteData);
 
 
 module.exports = router;
