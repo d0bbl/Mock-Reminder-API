@@ -52,7 +52,7 @@ This is a application which serves as a mock for persisting data to a database. 
 
 #### Update Data 
 
-- Endpoint-> POST `/api/data/write`
+- Endpoint-> PUT `/api/data/write`
 - Sample Payload-> 
 ```js
 {
