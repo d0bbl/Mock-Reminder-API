@@ -36,7 +36,7 @@ exports.create = async (req, res, next) => {
 
         }
 
-        return res.status(201).json({ plugin_id, organization_id, collection_name,result });
+        return res.status(201).json({ plugin_id, organization_id, collection_name, result });
 
     } else {
         try {
@@ -62,6 +62,7 @@ exports.update = async (req, res, next) => {
     const { object_id, bulk_write, payload, filter } = req.body;
 
     const validateError = validate(req.body, 'update');
+
     if (validateError) {
         const error = new Error(validateError);
         error.status = 422;
@@ -132,13 +133,45 @@ exports.delete = async (req, res, next) => {
 
 };
 
-// exports.search = async (req, res, next) => {
+exports.find = async (req, res, next) => {
+    const { plugin_id, organization_id, collection_name } = req.params;
 
-// };612fa7721112f088962c76ad
+    let query = { plugin_id, organization_id, collection_name };
+    if (req.query.object_id) query._id = req.query.object_id;
+
+    try {
+        const allRecords = await DataPoint.find(query);
+
+        return res.status(200).json({ result: allRecords });
+
+    } catch (error) {
+        next(error);
+    }
+
+};
+
+exports.search = async (req, res, next) => {
+    const { plugin_id, organization_id, collection_name } = data;
+    const { filter } = req.body;
+
+    if (!filter || Object.keys(filter).length == 0) return await this.find(req, res, next);
+
+    let query = getQueryFrom({ plugin_id, organization_id, collection_name, filter });
+
+    try {
+        const allRecords = await DataPoint.find(query);
+
+        return res.status(200).json({ result: allRecords });
+
+    } catch (error) {
+        next(error);
+    }
+
+};
 
 // Helpers
 const validate = (data, action = 'create') => {
-    const { plugin_id, organization_id, collection_name, bulk_write, object_id, payload, filter } = data;
+    const { plugin_id, organization_id, collection_name, bulk_write, filter, object_id, payload } = data;
 
     if (!plugin_id) return "Plugin Id is required";
     if (!organization_id) return "Organization Id is required";
