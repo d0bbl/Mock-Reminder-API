@@ -204,12 +204,3 @@ const getQueryFrom = (data) => {
 
     return query;
 };
-
-// const validateDelete = data => {
-//     const { plugin_id, organization_id, collection_name, bulk_write} = data;
-
-//     if (!plugin_id) return "Plugin Id is required";
-//     if (!organization_id) return "Organization Id is required";
-//     if (!collection_name) return "Collection Name is required";
-//     if ( typeof bulk_write !== 'boolean') return "Invalid bulk_write Format. Expected true or false";
-// };

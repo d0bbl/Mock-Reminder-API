@@ -89,3 +89,46 @@ This is a application which serves as a mock for persisting data to a database. 
         "error": "Invalid Payload Format. Expected an Array"
       }
     ``` 
+
+#### Delete Data 
+
+- Endpoint-> DELETE `/api/data/write`
+- Sample Payload (delete One)-> 
+```js
+{
+    "plugin_id": "reminders_id", 
+    "organization_id": "Darwin_organization", 
+    "collection_name": "Reminders", 
+    "bulk_write": false,
+    "object_id":"612fa7721112f088962c76ad"
+}
+```
+- Sample Payload (delete Many)-> 
+```js
+{
+    "plugin_id": "reminders_id", 
+    "organization_id": "Darwin_organization", 
+    "collection_name": "Reminders", 
+    "bulk_write": true,
+    "filter": {
+    	"priority": 1,
+    	"shouldRemind": true
+    }
+}
+```
+
+- Responses
+  - Success response-> 200
+    ```js
+        {
+          status: "success",
+          "message": "Data deleted"
+        }
+    ``` 
+
+  - Error response-> 422
+    ```js 
+      {
+        "error": "Invalid Delete Request. object_id is needed"
+      }
+    ``` 
