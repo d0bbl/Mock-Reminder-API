@@ -139,9 +139,9 @@ exports.find = async (req, res, next) => {
 
     let query = { plugin_id, organization_id, collection_name };
     if (req.query.object_id) query._id = req.query.object_id;
-
+    
     try {
-        const allRecords = await DataPoint.find(query);
+        const allRecords = await DataPoint.find({query});
 
         return res.status(200).json({ result: allRecords });
 
@@ -152,7 +152,6 @@ exports.find = async (req, res, next) => {
 };
 
 exports.search = async (req, res, next) => {
-    const { plugin_id, organization_id, collection_name } = data;
     const { filter } = req.body;
 
     if (!filter || Object.keys(filter).length == 0) return await this.find(req, res, next);

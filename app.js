@@ -38,15 +38,17 @@ app.get('/', (req, res)=> res.sendStatus(200));
 // Handle Error Requests
 app.use((req, res, next) => {
   const error = new Error();
-  error.message = 'Not Found';
-  error.status = 404;
+  error.message = error.message || 'Not Found';
+  error.status = error.status || 404;
   next(error);
 });
 
 app.use((error, req, res, next) => {
   return res
     .status(error.status || 500)
-    .json({ error: error.message });
+    .json({ errStack: error.stack,
+      errMessage: error.message
+     });
 });
 
 module.exports = app;
