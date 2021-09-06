@@ -205,7 +205,6 @@ This is a application which serves as a mock for persisting data to a database. 
                 "description": "Obiina is a boy",
                 "shouldRemind": false
             },
-            "__v": 0
         },
         {
             "_id": "6130eebeb9944cff3b518ccc",
@@ -218,7 +217,6 @@ This is a application which serves as a mock for persisting data to a database. 
                 "description": "ade is a winner",
                 "shouldRemind": true
             },
-            "__v": 0
         }
     ]
 }
@@ -226,8 +224,41 @@ This is a application which serves as a mock for persisting data to a database. 
 
   - Error response-> 422
     ```js 
-      { errStack: ,
-      errMessage: 
+      { success: false,
+      error: error.response
+     }
+    ```
+#### Find One 
+
+- Endpoint-> GET `/api/data/read/:plugin_id/:collection_name/:organization_id?object_id`
+
+- Responses
+  - Success response-> 201
+    ```js
+  {
+    "result": [
+        {
+            "_id": "6130eeb9b9944cff3b518cc7",
+            "plugin_id": "reminders_id",
+            "organization_id": "Darwin_organization",
+            "collection_name": "Reminders",
+            "payload": {
+                "priority": 1,
+                "expiryDate": "03-01-2021",
+                "description": "Obiina is a boy",
+                "shouldRemind": false
+            },
+            "createdAt": "2021-09-06T11:46:21.230Z",
+            "updatedAt": "2021-09-06T11:59:55.896Z"
+        }
+    ]
+  }
+    ``` 
+
+  - Error response-> 422
+    ```js 
+      { success: false,
+      error: error.response
      }
     ```
 

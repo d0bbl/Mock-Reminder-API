@@ -46,9 +46,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   return res
     .status(error.status || 500)
-    .json({ errStack: error.stack,
-      errMessage: error.message
-     });
+    .json({ errMessage: error.response });
 });
 
 module.exports = app;

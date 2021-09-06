@@ -15,13 +15,14 @@ const dataSchema = new Schema({
     required: true
   },
   object_id: { 
-    type: String, 
+    type: String,
+    unique: true, 
     required: false
   },
   payload: {
     type: Object,
     required: true
   }
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model('Data', dataSchema);

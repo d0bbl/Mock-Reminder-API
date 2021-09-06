@@ -90,59 +90,58 @@ exports.update = async (req, res, next) => {
     }
 };
 
-exports.delete = async (req, res, next) => {
-    const { object_id, filter } = req.body;
+// exports.delete = async (req, res, next) => {
+//     const { object_id, filter } = req.body;
 
-    const validateError = validate(req.body, 'delete');
-    if (validateError) {
-        const error = new Error(validateError);
-        error.status = 422;
+//     const validateError = validate(req.body, 'delete');
+//     if (validateError) {
+//         const error = new Error(validateError);
+//         error.status = 422;
 
-        return next(error);
-    }
+//         return next(error);
+//     }
+//     const query = object_id ? { _id: object_id } : filter;
+//     // if (object_id) {
+//         try {
+//             const obsoleted = await DataPoint.delete(query);
+//             console.log(obsoleted);
+//             return res.status(201).json({
+//                 status: "success",
+//                 message: "data deleted"
+//             });
 
-    if (object_id) {
-        try {
-            await DataPoint.deleteOne({ _id: object_id });
+//         } catch (error) {
+//             next(error);
+//         }
+    // } else {
+        // try {
+        //     const queries = req.body.filter;
+        //     const result = await DataPoint.deleteMany(query);
 
-            return res.status(201).json({
-                status: "success",
-                message: "data deleted"
-            });
+        //     return res.status(201).json({
+        //         status: "success",
+        //         result
+        //     });
 
-        } catch (error) {
-            next(error);
-        }
-    } else {
-        try {
-            const query = getQueryFrom(req.body);
-            await DataPoint.deleteMany({
-                query
-            });
+        // } catch (error) {
+        //     return {
+        //         status: "failed",
+        //         error: error.response
+        //     }
+        // }
+    // }
 
-            return res.status(201).json({
-                status: "success",
-                message: "data deleted"
-            });
-
-        } catch (error) {
-            return {
-                status: "failed",
-                error: error.message
-            }
-        }
-    }
-
-};
+// };
 
 exports.find = async (req, res, next) => {
-    const { plugin_id, organization_id, collection_name } = req.params;
-
-    let query = { plugin_id, organization_id, collection_name };
-    if (req.query.object_id) query._id = req.query.object_id;
-    
+    const query = req.query && req.query.object_id ? { _id: req.query.object_id } : req.params;
+    if(!query) {
+        const error = new Error('Invalid Request. request query is required');
+        error.status = 422;
+        return next(error);
+    }
     try {
-        const allRecords = await DataPoint.find({query});
+        const allRecords = await DataPoint.find(query, "-__v");
 
         return res.status(200).json({ result: allRecords });
 
@@ -160,7 +159,7 @@ exports.search = async (req, res, next) => {
     let query = getQueryFrom({ plugin_id, organization_id, collection_name, filter });
 
     try {
-        const allRecords = await DataPoint.find(query);
+        const allRecords = await DataPoint.find(query, "-__v");
 
         return res.status(200).json({ result: allRecords });
 
@@ -201,6 +200,6 @@ const getQueryFrom = (data) => {
     Object.keys(data.filter).forEach(field => {
         query[`payload.${field}`] = data.filter[field];
     });
-
+    console.log(query);
     return query;
 };
