@@ -90,48 +90,48 @@ exports.update = async (req, res, next) => {
     }
 };
 
-// exports.delete = async (req, res, next) => {
-//     const { object_id, filter } = req.body;
+exports.delete = async (req, res, next) => {
+    const { object_id, filter } = req.body;
 
-//     const validateError = validate(req.body, 'delete');
-//     if (validateError) {
-//         const error = new Error(validateError);
-//         error.status = 422;
+    const validateError = validate(req.body, 'delete');
+    if (validateError) {
+        const error = new Error(validateError);
+        error.status = 422;
 
-//         return next(error);
-//     }
-//     const query = object_id ? { _id: object_id } : filter;
-//     // if (object_id) {
-//         try {
-//             const obsoleted = await DataPoint.delete(query);
-//             console.log(obsoleted);
-//             return res.status(201).json({
-//                 status: "success",
-//                 message: "data deleted"
-//             });
+        return next(error);
+    }
+    const query = object_id ? { _id: object_id } : filter;
+    if (object_id) {
+        try {
+            const obsoleted = await DataPoint.delete(query);
+            console.log(obsoleted);
+            return res.status(201).json({
+                status: "success",
+                message: "data deleted"
+            });
 
-//         } catch (error) {
-//             next(error);
-//         }
-    // } else {
-        // try {
-        //     const queries = req.body.filter;
-        //     const result = await DataPoint.deleteMany(query);
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        try {
+            const queries = req.body.filter;
+            const result = await DataPoint.deleteMany(query);
 
-        //     return res.status(201).json({
-        //         status: "success",
-        //         result
-        //     });
+            return res.status(201).json({
+                status: "success",
+                result
+            });
 
-        // } catch (error) {
-        //     return {
-        //         status: "failed",
-        //         error: error.response
-        //     }
-        // }
-    // }
+        } catch (error) {
+            return {
+                status: "failed",
+                error: error.response
+            }
+        }
+    }
 
-// };
+};
 
 exports.find = async (req, res, next) => {
     const query = req.query && req.query.object_id ? { _id: req.query.object_id } : req.params;
@@ -143,7 +143,7 @@ exports.find = async (req, res, next) => {
     try {
         const allRecords = await DataPoint.find(query, "-__v");
 
-        return res.status(200).json({ result: allRecords });
+        return res.status(200).json( allRecords );
 
     } catch (error) {
         next(error);
