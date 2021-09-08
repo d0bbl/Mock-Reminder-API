@@ -10,23 +10,23 @@ This is a application which serves as a mock for persisting data to a database. 
 - Endpoint-> POST `/api/data/write`
 - Sample Payload-> 
 ```js
-{
-    "plugin_id": "reminders_id", 
-    "organization_id": "Darwin_organization", 
-    "collection_name": "Reminders", 
-    "bulk_write": false,
-    "object_id":"612fa7721112f088962c76ad",
-    "filter": {
-    	"priority": 1,
-    	"shouldRemind": true
-    },
-    "payload": {
-		"priority": 2,
-		"expiryDate": "01-01-2021",
-		"description": "Obi is a boy",
-		"shouldRemind": true
+    {
+      "plugin_id": "reminders_id", 
+      "organization_id": "Darwin_organization", 
+      "collection_name": "Reminders", 
+      "bulk_write": false,
+      "object_id":"612fa7721112f088962c76ad",
+      "filter": {
+        "priority": 1,
+        "shouldRemind": true
+      },
+      "payload": {
+      "priority": 2,
+      "expiryDate": "01-01-2021",
+      "description": "Obi is a boy",
+      "shouldRemind": true
+      }
     }
-}
 ```
 
 - Responses
@@ -40,9 +40,9 @@ This is a application which serves as a mock for persisting data to a database. 
 
   - Error response-> 422
     ```js 
-      {
-        "error": "Invalid Payload Format. Expected an Array"
-      }
+        {
+          "error": "Invalid Payload Format. Expected an Array"
+        }
     ``` 
 
 
@@ -51,23 +51,23 @@ This is a application which serves as a mock for persisting data to a database. 
 - Endpoint-> PUT `/api/data/write`
 - Sample Payload-> 
 ```js
-{
-    "plugin_id": "reminders_id", 
-    "organization_id": "Darwin_organization", 
-    "collection_name": "Reminders", 
-    "bulk_write": false,
-    "object_id":"612fa7721112f088962c76ad",
-    "filter": {
-    	"priority": 1,
-    	"shouldRemind": true
-    },
-    "payload": {
-		"priority": 2,
-		"expiryDate": "01-01-2021",
-		"description": "Obi is a boy",
-		"shouldRemind": true
+    {
+      "plugin_id": "reminders_id", 
+      "organization_id": "Darwin_organization", 
+      "collection_name": "Reminders", 
+      "bulk_write": false,
+      "object_id":"612fa7721112f088962c76ad",
+      "filter": {
+        "priority": 1,
+        "shouldRemind": true
+      },
+      "payload": {
+      "priority": 2,
+      "expiryDate": "01-01-2021",
+      "description": "Obi is a boy",
+      "shouldRemind": true
+      }
     }
-}
 ```
 
 - Responses
@@ -81,9 +81,9 @@ This is a application which serves as a mock for persisting data to a database. 
 
   - Error response-> 422
     ```js 
-      {
-        "error": "Invalid Payload Format. Expected an Array"
-      }
+        {
+          "error": "Invalid Payload Format. Expected an Array"
+        }
     ``` 
 
 
@@ -92,26 +92,12 @@ This is a application which serves as a mock for persisting data to a database. 
 - Endpoint-> DELETE `/api/data/write`
 - Sample Payload (delete One)-> 
 ```js
-{
-    "plugin_id": "reminders_id", 
-    "organization_id": "Darwin_organization", 
-    "collection_name": "Reminders", 
-    "bulk_write": false,
-    "object_id":"612fa7721112f088962c76ad"
-}
-```
-- Sample Payload (delete Many)-> 
-```js
-{
-    "plugin_id": "reminders_id", 
-    "organization_id": "Darwin_organization", 
-    "collection_name": "Reminders", 
-    "bulk_write": true,
-    "filter": {
-    	"priority": 1,
-    	"shouldRemind": true
+    {
+      "plugin_id": "reminders_id", 
+      "organization_id": "Darwin_organization", 
+      "collection_name": "Reminders", 
+      "object_id":"612fa7721112f088962c76ad"
     }
-}
 ```
 
 - Responses
@@ -125,9 +111,9 @@ This is a application which serves as a mock for persisting data to a database. 
 
   - Error response-> 422
     ```js 
-      {
-        "error": "Invalid Delete Request. object_id is needed"
-      }
+        {
+          "error": "Invalid Delete Request. object_id is needed"
+        }
     ``` 
 
 
@@ -146,46 +132,44 @@ This is a application which serves as a mock for persisting data to a database. 
   - Success response-> 201
     ```js
         {
-    "result": [
-        {
-            "_id": "6130eeb9b9944cff3b518cc7",
-            "plugin_id": "reminders_id",
-            "organization_id": "Darwin_organization",
-            "collection_name": "Reminders",
-            "payload": {
-                "priority": 1,
-                "expiryDate": "03-01-2021",
-                "description": "Obiina is a boy",
-                "shouldRemind": false
+          "result": [
+            {
+              "_id": "6130eeb9b9944cff3b518cc7",
+              "plugin_id": "reminders_id",
+              "organization_id": "Darwin_organization",
+              "collection_name": "Reminders",
+              "payload": {
+                  "priority": 1,
+                  "expiryDate": "03-01-2021",
+                  "description": "Obiina is a boy",
+                  "shouldRemind": false
+              },
             },
-            "__v": 0
-        },
-        {
-            "_id": "6130eebeb9944cff3b518ccc",
-            "plugin_id": "reminders_id",
-            "organization_id": "Darwin_organization",
-            "collection_name": "Reminders",
-            "payload": {
-                "priority": 5,
-                "expiryDate": "08-01-2020",
-                "description": "ade is a winner",
-                "shouldRemind": true
-            },
-            "__v": 0
+            {
+              "_id": "6130eebeb9944cff3b518ccc",
+              "plugin_id": "reminders_id",
+              "organization_id": "Darwin_organization",
+              "collection_name": "Reminders",
+              "payload": {
+                  "priority": 5,
+                  "expiryDate": "08-01-2020",
+                  "description": "ade is a winner",
+                  "shouldRemind": true
+              },
+            }
+          ]
         }
-    ]
-}
     ``` 
 
   - Error response-> 422
     ```js 
-      { errStack: ,
-      errMessage: 
-     }
+        { success: false,
+          errResponse: error.response
+        }
     ```
 
 
-#### Find Data 
+#### Find All 
 
 - Endpoint-> GET `/api/data/read/:plugin_id/:collection_name/:organization_id`
 
@@ -195,28 +179,28 @@ This is a application which serves as a mock for persisting data to a database. 
         {
           "result": [
             {
-                "_id": "6130eeb9b9944cff3b518cc7",
-                "plugin_id": "reminders_id",
-                "organization_id": "Darwin_organization",
-                "collection_name": "Reminders",
-                "payload": {
-                    "priority": 1,
-                    "expiryDate": "03-01-2021",
-                    "description": "Obiina is a boy",
-                    "shouldRemind": false
-                },
+              "_id": "6130eeb9b9944cff3b518cc7",
+              "plugin_id": "reminders_id",
+              "organization_id": "Darwin_organization",
+              "collection_name": "Reminders",
+              "payload": {
+                  "priority": 1,
+                  "expiryDate": "03-01-2021",
+                  "description": "Obiina is a boy",
+                  "shouldRemind": false
+              },
             },
             {
-                "_id": "6130eebeb9944cff3b518ccc",
-                "plugin_id": "reminders_id",
-                "organization_id": "Darwin_organization",
-                "collection_name": "Reminders",
-                "payload": {
-                    "priority": 5,
-                    "expiryDate": "08-01-2020",
-                    "description": "ade is a winner",
-                    "shouldRemind": true
-                },
+              "_id": "6130eebeb9944cff3b518ccc",
+              "plugin_id": "reminders_id",
+              "organization_id": "Darwin_organization",
+              "collection_name": "Reminders",
+              "payload": {
+                  "priority": 5,
+                  "expiryDate": "08-01-2020",
+                  "description": "ade is a winner",
+                  "shouldRemind": true
+              },
             }
           ]
         }
@@ -224,9 +208,9 @@ This is a application which serves as a mock for persisting data to a database. 
 
   - Error response-> 422
     ```js 
-      { success: false,
-      error: error.response
-      }
+        { success: false,
+          error: error.response
+        }
     ```
 #### Find One 
 
@@ -238,18 +222,18 @@ This is a application which serves as a mock for persisting data to a database. 
         {
           "result": [
               {
-                  "_id": "6130eeb9b9944cff3b518cc7",
-                  "plugin_id": "reminders_id",
-                  "organization_id": "Darwin_organization",
-                  "collection_name": "Reminders",
-                  "payload": {
-                      "priority": 1,
-                      "expiryDate": "03-01-2021",
-                      "description": "Obiina is a boy",
-                      "shouldRemind": false
-                  },
-                  "createdAt": "2021-09-06T11:46:21.230Z",
-                  "updatedAt": "2021-09-06T11:59:55.896Z"
+                "_id": "6130eeb9b9944cff3b518cc7",
+                "plugin_id": "reminders_id",
+                "organization_id": "Darwin_organization",
+                "collection_name": "Reminders",
+                "payload": {
+                    "priority": 1,
+                    "expiryDate": "03-01-2021",
+                    "description": "Obiina is a boy",
+                    "shouldRemind": false
+                },
+                "createdAt": "2021-09-06T11:46:21.230Z",
+                "updatedAt": "2021-09-06T11:59:55.896Z"
               }
           ]
         }
@@ -258,7 +242,7 @@ This is a application which serves as a mock for persisting data to a database. 
   - Error response-> 422
     ```js 
         { success: false,
-        error: error.response
+          error: error.response
         }
     ```
 

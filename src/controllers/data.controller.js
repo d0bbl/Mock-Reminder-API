@@ -91,8 +91,7 @@ exports.update = async (req, res, next) => {
 };
 
 exports.delete = async (req, res, next) => {
-    const { object_id, filter } = req.body;
-
+    const { object_id } = req.body;
     const validateError = validate(req.body, 'delete');
     if (validateError) {
         const error = new Error(validateError);
@@ -100,37 +99,16 @@ exports.delete = async (req, res, next) => {
 
         return next(error);
     }
-    const query = object_id ? { _id: object_id } : filter;
-    if (object_id) {
+    const query = { _id: object_id };
         try {
-            const obsoleted = await DataPoint.delete(query);
-            console.log(obsoleted);
+            await DataPoint.deleteOne(query);
             return res.status(201).json({
                 status: "success",
-                message: "data deleted"
+                message: "data deleted",
             });
-
         } catch (error) {
             next(error);
         }
-    } else {
-        try {
-            const queries = req.body.filter;
-            const result = await DataPoint.deleteMany(query);
-
-            return res.status(201).json({
-                status: "success",
-                result
-            });
-
-        } catch (error) {
-            return {
-                status: "failed",
-                error: error.response
-            }
-        }
-    }
-
 };
 
 exports.find = async (req, res, next) => {
@@ -186,10 +164,8 @@ const validate = (data, action = 'create') => {
 
     if (action === 'update' && !(object_id || filter)) return "Invalid Update Request. object_id or filter is needed.";
 
-    if (action === 'delete') { 
-        if (bulk_write && !filter) return "Invalid Delete Request. Filter is needed.";
-        if (!bulk_write && !object_id) return "Invalid Delete Request. object_id is needed.";
-    }
+    if (action === 'delete' && !object_id) return "Invalid Delete Request. object_id is needed.";
+    
 };
 
 const getQueryFrom = (data) => {
