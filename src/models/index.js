@@ -4,15 +4,18 @@ const { Schema } = mongoose;
 const dataSchema = new Schema({
   plugin_id: {
     type:String,
-    required: true
+    required: true,
+    select: false
   },
   organization_id: {
     type:String,
-    required: true
+    required: true,
+    select: false
   },
   collection_name: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   object_id: { 
     type: String,

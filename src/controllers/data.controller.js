@@ -20,12 +20,14 @@ exports.create = async (req, res, next) => {
             let document = {};
             try {
                 const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, payload: row });
-
-                document = {
-                    object_id: savedRecord._id,
-                    payload: savedRecord.payload
-                }
-                result.push({ status: "success", document });
+                count = 1;
+                result.push({ success: true,
+                    message: "Rooms created successfully", 
+                    data: { 
+                        insert_count: 1,
+                        object_id: savedRecord._id,
+                    }
+                });
 
             } catch (error) {
                 result.push({
@@ -36,19 +38,19 @@ exports.create = async (req, res, next) => {
 
         }
 
-        return res.status(201).json({ plugin_id, organization_id, collection_name, result });
+        return res.status(201).json({ result });
 
     } else {
         try {
             const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, bulk_write, payload });
 
             return res.status(201).json({
-                plugin_id: savedRecord.plugin_id,
-                organization_id: savedRecord.organization_id,
-                collection_name: savedRecord.collection_name,
-                bulk_write: savedRecord.bulk_write,
-                object_id: savedRecord._id,
-                payload: savedRecord.payload
+                success: true,
+                message: "Room created successfully",
+                data: { 
+                    insert_count: 1,
+                    object_id: savedRecord._id,
+                }
             });
 
         } catch (error) {
@@ -120,8 +122,13 @@ exports.find = async (req, res, next) => {
     }
     try {
         const allRecords = await DataPoint.find(query, "-__v");
-
-        return res.status(200).json( allRecords );
+        let result = [];
+        for(let i = 0; i<allRecords.length; i++)
+        {
+            result.push(allRecords[i].payload);
+        }
+        return res.send({ status: 200, message: 'success', data: result });
+        
 
     } catch (error) {
         next(error);
@@ -139,7 +146,12 @@ exports.search = async (req, res, next) => {
     try {
         const allRecords = await DataPoint.find(query, "-__v");
 
-        return res.status(200).json({ result: allRecords });
+        let result = [];
+        for(let i = 0; i<allRecords.length; i++)
+        {
+            result.push(allRecords[i].payload);
+        }
+        return res.status(200).send({ status: 200, message: 'success', data: result });
 
     } catch (error) {
         next(error);
