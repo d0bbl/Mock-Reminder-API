@@ -104,9 +104,9 @@ exports.delete = async (req, res, next) => {
     const query = { _id: object_id };
         try {
             await DataPoint.deleteOne(query);
-            return res.status(201).json({
-                status: "success",
-                message: "data deleted",
+            return res.status(200).json({
+                success: true,
+                message: "User removed successfully"
             });
         } catch (error) {
             next(error);
