@@ -20,8 +20,8 @@ exports.create = async (req, res, next) => {
             let document = {};
             try {
                 const savedRecord = await DataPoint.create({ plugin_id, organization_id, collection_name, payload: row });
-                count = 1;
-                result.push({ success: true,
+              
+                const result = ({ success: true,
                     message: "Rooms created successfully", 
                     data: { 
                         insert_count: 1,
@@ -30,10 +30,7 @@ exports.create = async (req, res, next) => {
                 });
 
             } catch (error) {
-                result.push({
-                    status: "failed",
-                    error: error.message
-                });
+                next(error);
             }
 
         }
